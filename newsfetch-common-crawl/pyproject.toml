@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "newsfetch-common-crawl"
+version = "0.1.0"
+description = "Newsfetch CommonCrawl library"
+authors = ["Manoj Bharadwaj <manoj@cloudcosmos.tech>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python_dotenv = "^0.20.0"
+boto3="^1.24.66"
+warcio="^1.7.4"
+# relative path based dependencies
+newsfetch-core = {path = "../newsfetch-core"}
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+in-project = true
+path = "./venv"
+
+

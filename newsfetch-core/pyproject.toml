@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "newsfetch-core"
+version = "0.1.0"
+description = "Newsfetch core library"
+authors = ["Manoj Bharadwaj <manoj@cloudcosmos.tech>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python_dotenv = "^0.20.0"
+news-please = "^1.5.22"
+awscli = "^1.20.57"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+in-project = true
+path = "./venv"
+
+

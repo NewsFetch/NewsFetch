@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "newsfetch-api"
+version = "0.1.0"
+description = "Newsfetch API "
+authors = ["Manoj Bharadwaj <manoj@cloudcosmos.tech>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python_dotenv = "^0.20.0"
+fastapi = "^0.81.0"
+uvicorn = "^0.18.2"
+pydantic = "^1.8.2"
+sqlalchemy = "^1.4.40"
+# relative path based dependencies
+newsfetch-core = {path = "../newsfetch-core"}
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+# requests needed for fastapi tests
+requests="^2.28.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+in-project = true
+path = "./venv"
+
+
