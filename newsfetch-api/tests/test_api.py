@@ -3,8 +3,9 @@ import json
 
 import pytest
 from fastapi.testclient import TestClient
+from newsfetch_core.api_schemas import Article
 
-from core.api_schemas import Article
+import config
 from core.database import Base, engine
 from fastapi_main import app
 
@@ -139,6 +140,13 @@ class TestApi():
         assert response.status_code == 200
         assert len(response.json()) == limit
         assert response.json()[-1]["title"] == "Example Article 11"
+
+        # limit greater than default max
+        limit = config.DEFAULT_MAX_LIMIT + 1
+        response = client.get(f"/articles/search?limit={limit}")
+        assert response.status_code == 200
+        assert len(response.json()) == TEST_SAMPLE_SIZE
+        assert response.json()[-1]["title"] == "Example Article 20"
 
         # limit greater than size
         limit = TEST_SAMPLE_SIZE + TEST_SAMPLE_SIZE

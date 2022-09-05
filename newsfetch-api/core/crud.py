@@ -1,8 +1,9 @@
 from datetime import datetime
 
+from newsfetch_core import api_schemas
 from sqlalchemy.orm import Session
 
-from . import db_models, api_schemas
+from . import db_models
 
 
 def get_article_by_url(db: Session, url: str):
