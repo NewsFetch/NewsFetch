@@ -2,6 +2,8 @@ from urllib.parse import urlparse
 
 from newsplease import NewsPlease, NewscrawlerItem
 
+from newsfetch_core.api_schemas import Article
+
 
 class NewsPleaseAdapter():
     def __init__(self, article: NewscrawlerItem, url: str):
@@ -10,7 +12,7 @@ class NewsPleaseAdapter():
         self.domain = urlparse(url).netloc
 
 
-    def _process_article(self):
+    def _process_article(self) -> dict:
         published_date = None
         if self.article.date_publish:
             published_date = self.article.date_publish.strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -28,8 +30,8 @@ class NewsPleaseAdapter():
             'language': self.article.language,
         }
 
-    def get_news(self):
-        return self._process_article()
+    def get_article(self) -> Article:
+        return Article(**self._process_article())
 
 class NewsPleaseUrlAdapter(NewsPleaseAdapter):
     def __init__(self, url):

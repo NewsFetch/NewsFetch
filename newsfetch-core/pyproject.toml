@@ -9,6 +9,7 @@ python = "^3.9"
 python_dotenv = "^0.20.0"
 news-please = "^1.5.22"
 awscli = "^1.20.57"
+pydantic = "^1.8.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
