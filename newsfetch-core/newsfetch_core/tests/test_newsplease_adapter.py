@@ -1,14 +1,22 @@
 import datetime
 import json
+import os
+import pathlib
+
+import pytest
 
 from newsfetch_core.api_schemas import Article
 from newsfetch_core.newplease_adapter import NewsPleaseHtmlAdapter
 
+@pytest.fixture(autouse=True)
+def get_parent_folder(request):
+    parent = pathlib.Path(request.node.fspath).parent
+    return parent
 
 class TestNewsPleaseHtmlAdapter():
-    def test_get_article(self):
-        with(open('warc_extract.json', 'r')) as f:
-            html = json.loads(f.read())['article_html']
+    def test_get_article(self, get_parent_folder):
+        warc_extract = json.loads(open(os.path.join(get_parent_folder, "warc_extract.json")).read())
+        html = warc_extract['article_html']
         newsplease_html_adapter = NewsPleaseHtmlAdapter(html, url="https://npr.org/article")
         article: Article = newsplease_html_adapter.get_article()
         assert article.title == "Fresh Air's summer music interviews: Isaac Hayes"

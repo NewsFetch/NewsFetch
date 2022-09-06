@@ -1,5 +1,7 @@
 import datetime
 import json
+import os
+import pathlib
 
 import pytest
 from fastapi.testclient import TestClient
@@ -11,6 +13,10 @@ from fastapi_main import app
 
 client = TestClient(app)
 
+@pytest.fixture(autouse=True)
+def get_parent_folder(request):
+    parent = pathlib.Path(request.node.fspath).parent
+    return parent
 
 @pytest.fixture()
 def test_db():
@@ -29,8 +35,8 @@ class TestApi():
         assert response.status_code == 200
         assert response.json() == {"status": "OK"}
 
-    def test_create_article(self, test_db):
-        article = self.get_test_article()
+    def test_create_article(self, test_db, get_parent_folder):
+        article = self.get_test_article(get_parent_folder)
         article_json = json.loads(article.json())
         response = client.post("/article", json=article_json)
         assert response.status_code == 200
@@ -40,13 +46,12 @@ class TestApi():
         assert response_article.authors == article.authors
         assert response_article.content == article.content
 
-    def get_test_article(self):
-        with(open("processed_warc_news_sample_article.json")) as f:
-            article = Article(**json.load(f))
-        return article
+    def get_test_article(self, get_parent_folder):
+        article_json = json.loads(open(os.path.join(get_parent_folder, "processed_warc_news_sample_article.json")).read())
+        return Article(**article_json)
 
-    def test_get_article(self, test_db):
-        article = self.get_test_article()
+    def test_get_article(self, test_db, get_parent_folder):
+        article = self.get_test_article(get_parent_folder)
         article_json = json.loads(article.json())
         response = client.post("/article", json=article_json)
         assert response.status_code == 200
@@ -59,8 +64,8 @@ class TestApi():
         assert response_article.authors == article.authors
         assert response_article.content == article.content
 
-    def test_delete_article(self, test_db):
-        article = self.get_test_article()
+    def test_delete_article(self, test_db, get_parent_folder):
+        article = self.get_test_article(get_parent_folder)
         article_json = json.loads(article.json())
         response = client.post("/article", json=article_json)
         assert response.status_code == 200
@@ -71,16 +76,16 @@ class TestApi():
         response = client.get(f"/article?url={article.url}")
         assert response.status_code == 404
 
-    def test_create_article_existing_article(self, test_db):
-        article = self.get_test_article()
+    def test_create_article_existing_article(self, test_db, get_parent_folder):
+        article = self.get_test_article(get_parent_folder)
         article_json = json.loads(article.json())
         response = client.post("/article", json=article_json)
         assert response.status_code == 200
         response = client.post("/article", json=article_json)
         assert response.status_code == 400
 
-    def test_update_article(self, test_db):
-        article = self.get_test_article()
+    def test_update_article(self, test_db, get_parent_folder):
+        article = self.get_test_article(get_parent_folder)
         article_json = json.loads(article.json())
         response = client.post("/article", json=article_json)
         assert response.status_code == 200
@@ -91,8 +96,8 @@ class TestApi():
         response_article = Article(**response.json())
         assert response_article.authors == article.authors
 
-    def test_update_article_non_existant_article(self, test_db):
-        article = self.get_test_article()
+    def test_update_article_non_existant_article(self, test_db, get_parent_folder):
+        article = self.get_test_article(get_parent_folder)
         article_json = json.loads(article.json())
         response = client.put("/article", json=article_json)
         assert response.status_code == 400
