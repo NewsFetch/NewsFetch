@@ -1,4 +1,4 @@
-name: newsfetch-api-ci
+name: newsfetch-core-ci
 
 defaults:
   run:
