@@ -134,3 +134,4 @@ dmypy.json
 .DS_Store
 
 !uqt-api/aws/lib
+newsfetch-common-crawl/CC*

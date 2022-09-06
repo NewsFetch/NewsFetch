@@ -54,6 +54,6 @@ jobs:
 
       - run: poetry install --no-interaction
 
-      - run: poetry run pytest
+      - run: DATABASE_URL=sqlite:///newsfetch.db poetry run pytest
 
       - run: poetry build
