@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional, List, Any
 
+from pydantic import Field
 from pydantic.main import BaseModel
 
 
@@ -15,7 +16,7 @@ class Article(BaseModel):
     language: str
     domain: str
     media: Optional[str] = None
-    meta: Optional[str] = None
+    meta_info: Optional[dict[str, Any]] = None
 
     class Config:
         orm_mode = True

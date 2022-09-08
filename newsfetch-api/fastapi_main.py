@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from newsfetch_core import api_schemas
 from core import db_models, crud
 from core.database import engine, SessionLocal
+import config
 
 db_models.Base.metadata.create_all(bind=engine)
 

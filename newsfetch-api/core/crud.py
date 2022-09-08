@@ -31,7 +31,7 @@ def create_article(db: Session, article: api_schemas.Article):
                                    language=article.language,
                                    domain=article.domain,
                                    media=article.media,
-                                   meta=article.meta,
+                                   meta_info=article.meta_info,
                                    )
     db.add(db_article)
     db.commit()
@@ -53,7 +53,7 @@ def update_article(db: Session, article: api_schemas.Article):
     db_article.language = article.language
     db_article.domain = article.domain
     db_article.media = article.media
-    db_article.meta = article.meta
+    db_article.meta_info = article.meta_info
 
     db.commit()
     db.refresh(db_article)

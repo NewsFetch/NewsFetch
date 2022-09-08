@@ -13,10 +13,12 @@ from fastapi_main import app
 
 client = TestClient(app)
 
+
 @pytest.fixture(autouse=True)
 def get_parent_folder(request):
     parent = pathlib.Path(request.node.fspath).parent
     return parent
+
 
 @pytest.fixture()
 def test_db():
@@ -41,13 +43,11 @@ class TestApi():
         response = client.post("/article", json=article_json)
         assert response.status_code == 200
         response_article = Article(**response.json())
-        assert response_article.url == article.url
-        assert response_article.title == article.title
-        assert response_article.authors == article.authors
-        assert response_article.content == article.content
+        assert response_article is not None
 
     def get_test_article(self, get_parent_folder):
-        article_json = json.loads(open(os.path.join(get_parent_folder, "processed_warc_news_sample_article.json")).read())
+        article_json = json.loads(
+            open(os.path.join(get_parent_folder, "processed_warc_news_sample_article.json")).read())
         return Article(**article_json)
 
     def test_get_article(self, test_db, get_parent_folder):
@@ -63,6 +63,12 @@ class TestApi():
         assert response_article.title == article.title
         assert response_article.authors == article.authors
         assert response_article.content == article.content
+        assert response_article.content_length == article.content_length
+        assert response_article.published_date.date() == article.published_date.date()
+        assert response_article.published_date.time() == article.published_date.time()
+        assert response_article.media == article.media
+        assert response_article.meta_info == article.meta_info
+        assert response_article.domain == article.domain
 
     def test_delete_article(self, test_db, get_parent_folder):
         article = self.get_test_article(get_parent_folder)
@@ -114,7 +120,8 @@ class TestApi():
                               language="en",
                               domain="example.com",
                               media="https://www.example.com/media/{}".format(i + 1),
-                              meta="")
+                              meta_info={"meta": "info"}
+                              )
             article_json = json.loads(article.json())
             response = client.post("/article", json=article_json)
             assert response.status_code == 200
@@ -209,4 +216,3 @@ class TestApi():
         assert response.json()["content_length"] == 14355
         assert response.json()["language"] == "en"
         assert response.json()["domain"] == "www.npr.org"
-

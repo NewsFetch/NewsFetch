@@ -9,7 +9,7 @@
   "domain": "abc7.com",
   "media": "https://cdn.abcotvs.com/dip/images/12191482_090222-kabc-4pm-death-valley-temp-record-vid.jpg?w=1600",
   "language": "en",
-  "metadata": {
+  "meta_info": {
     "dataset_id": "14109a15-124f-437d-9755-fef978e21eed",
     "dataset": "news-cc",
     "dataset_content_length": "237353",

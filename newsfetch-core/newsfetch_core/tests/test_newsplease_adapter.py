@@ -29,4 +29,4 @@ class TestNewsPleaseHtmlAdapter():
         assert article.published_date == datetime.datetime.strptime('2022-09-02T13:52:20', '%Y-%m-%dT%H:%M:%S').replace(tzinfo=datetime.timezone.utc)
         assert article.language == 'en'
         assert article.media == 'https://media.npr.org/include/images/facebook-default-wide.jpg?s=1400'
-        assert article.meta is None
+        assert article.meta_info is None
