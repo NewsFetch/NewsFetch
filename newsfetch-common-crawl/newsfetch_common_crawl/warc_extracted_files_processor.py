@@ -1,15 +1,18 @@
+import argparse
 import json
 import logging
 import os
 import datetime
 import time
 
-from newsfetch_core.common import constants, util
-
+from newsfetch_core.common import util
 from newsfetch_core.newplease_adapter import NewsPleaseHtmlAdapter
+import config
 
-with(open("STOP_SITES.txt", "r")) as stop_sites_file:
-    stop_sites = stop_sites_file.read().split("\n")
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+
+# add list of sites to skip
+stop_sites = []
 
 def process_warc_content(file_name, input_dir):
     try:
@@ -26,9 +29,9 @@ def process_warc_content(file_name, input_dir):
                 logging.warning(f'WARNING: did not extract content for: {uri}... domain in stop list')
                 return
 
-            news = NewsPleaseHtmlAdapter(article_html, uri).get_news()
+            article = NewsPleaseHtmlAdapter(article_html, uri).get_article()
 
-            metadata = {
+            meta_info = {
                 "dataset_id": dataset_id,
                 "dataset": warc_extract["dataset"],
                 "dataset_content_length": warc_extract["dataset_content_length"],
@@ -37,10 +40,14 @@ def process_warc_content(file_name, input_dir):
                 "warc_processed_date": datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'),
             }
 
-            news["metadata"] = metadata
+            article_json = article.dict()
+            if article_json["published_date"]:
+                article_json["published_date"] = article_json["published_date"].strftime('%Y-%m-%dT%H:%M:%SZ')
 
-            file_name = dataset_id + constants.JSON_OUT_FILE_EXT
-            util.write_json_to_file([input_dir, constants.PROCESSED_CONTENT_DIR, domain], file_name, data=news)
+            article_json["meta_info"] = meta_info
+
+            file_name = dataset_id + config.JSON_OUT_FILE_EXT
+            util.write_json_to_file([input_dir, config.PROCESSED_CONTENT_DIR, domain], file_name, data=article_json)
 
     except Exception as e:
         print(f'exception occurred processing warc file: {file_name} -> {e}')
@@ -48,11 +55,19 @@ def process_warc_content(file_name, input_dir):
 
 if __name__ == '__main__':
     start_time = time.time()
-    input_warc_filename = 'CC-NEWS-20220903010650-00655.warc.gz'
-    file_path = os.path.join(input_warc_filename)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--warc-file-path', type=str, required=True, help='full path to compressed warc file')
+    args = parser.parse_args()
+
+    if not args.warc_file_path:
+        logging.error("warc-file-path is required!")
+        print(parser.print_help())
+        exit(1)
+
+    file_path = os.path.join(args.warc_file_path)
     input_directory = util.get_warc_file_name(file_path)
 
-    dir_name = os.path.join(input_directory, constants.WARC_EXTRACT_DIR)
+    dir_name = os.path.join(input_directory, config.WARC_EXTRACT_DIR)
     file_names = util.list_files(dir_name, limit=False, limit_value=1000)
 
     # single threaded - todo: parallelize

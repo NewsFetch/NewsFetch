@@ -1,0 +1,17 @@
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+DEFAULT_COMMON_CRAWL_DATA_DIR = "./commoncrawl-data"
+COMMON_CRAWL_DATA_DIR = os.environ.get("COMMON_CRAWL_DATA_DIR", DEFAULT_COMMON_CRAWL_DATA_DIR)
+
+DEFAULT_WARC_EXTRACT_DIR = "warc-extract"
+WARC_EXTRACT_DIR = os.environ.get("WARC_EXTRACT_DIR", DEFAULT_WARC_EXTRACT_DIR)
+
+DEFAULT_PROCESSED_CONTENT_DIR = "processed-content"
+PROCESSED_CONTENT_DIR = os.environ.get("PROCESSED_CONTENT_DIR", DEFAULT_PROCESSED_CONTENT_DIR)
+
+JSON_OUT_FILE_EXT = ".json"

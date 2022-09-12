@@ -9,7 +9,6 @@ python = "^3.9"
 python_dotenv = "^0.20.0"
 fastapi = "^0.81.0"
 uvicorn = "^0.18.2"
-pydantic = "^1.8.2"
 sqlalchemy = "^1.4.40"
 # relative path based dependencies
 newsfetch-core = {path = "../newsfetch-core"}

@@ -10,6 +10,7 @@ python_dotenv = "^0.20.0"
 boto3="^1.24.66"
 warcio="^1.7.4"
 # relative path based dependencies
+pydantic = "^1.10.2"
 newsfetch-core = {path = "../newsfetch-core"}
 
 [tool.poetry.dev-dependencies]

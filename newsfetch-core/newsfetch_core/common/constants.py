@@ -1,5 +1,2 @@
 DATASET_NEWS_CC = "news-cc"
 DEFAULT_LIMIT_FOR_TESTING = 10
-JSON_OUT_FILE_EXT = ".json"
-WARC_EXTRACT_DIR = "warc-extract"
-PROCESSED_CONTENT_DIR = "processed-content"

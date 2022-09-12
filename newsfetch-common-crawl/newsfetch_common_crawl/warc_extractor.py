@@ -3,12 +3,16 @@ import logging
 import os
 import datetime
 import time
+import argparse
 
 from warcio import ArchiveIterator
 from urllib.parse import urlparse
 
 from newsfetch_core.common import constants, util
 
+import config
+
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
 class CommonCrawlWarcExtractor:
     def process(self, warc_file_path, limit=False):
@@ -45,8 +49,10 @@ class CommonCrawlWarcExtractor:
 
                         article_html = record.content_stream().read()
 
-                        record_processor_wrapper = RecordProcessorWrapper(warc_record_id, warc_target_uri,
-                                                                          warc_content_length, warc_date, domain, article_html)
+                        record_processor_wrapper = RecordProcessorWrapper(warc_file_name, warc_record_id,
+                                                                          warc_target_uri,
+                                                                          warc_content_length, warc_date,
+                                                                          domain, article_html)
                         num_processed = num_processed + 1
                         futures.append(executor.submit(record_processor_wrapper.process))
 
@@ -56,7 +62,10 @@ class CommonCrawlWarcExtractor:
         return num_processed
 
 class RecordProcessorWrapper():
-    def __init__(self, warc_record_id, warc_target_uri, warc_content_length, warc_date, domain, article_html):
+    def __init__(self, warc_file_name, warc_record_id,
+                 warc_target_uri, warc_content_length,
+                 warc_date, domain, article_html):
+        self.warc_file_name = warc_file_name
         self.warc_record_id = warc_record_id
         self.warc_target_uri = warc_target_uri
         self.warc_content_length = warc_content_length
@@ -78,16 +87,25 @@ class RecordProcessorWrapper():
                 "article_html": self.article_html.decode("utf-8", "ignore")
             }
 
-            file_name = dataset_id + constants.JSON_OUT_FILE_EXT
-            util.write_json_to_file([warc_file_name, constants.WARC_EXTRACT_DIR, self.domain], file_name, data=data)
+            file_name = dataset_id + config.JSON_OUT_FILE_EXT
+            util.write_json_to_file([self.warc_file_name, config.WARC_EXTRACT_DIR, self.domain], file_name, data=data)
 
         except Exception as e:
             logging.error('An exception occurred: {}'.format(e))
 
 if __name__ == '__main__':
     start_time = time.time()
-    file_path = os.path.join('CC-NEWS-20220903010650-00655.warc.gz')
-    warc_file_name = util.get_warc_file_name(file_path)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--warc-file-path', type=str, required=True, help='full path to compressed warc file')
+    args = parser.parse_args()
+
+    if not args.warc_file_path:
+        logging.error("warc-file-path is required!")
+        print(parser.print_help())
+        exit(1)
+
+    file_path = os.path.join(args.warc_file_path)
+    logging.info(f"processing warc file: {file_path}...")
     common_crawl_warc_extractor = CommonCrawlWarcExtractor()
     num_processed = common_crawl_warc_extractor.process(file_path, limit=False)
     metrics = {
