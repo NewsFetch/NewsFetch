@@ -79,3 +79,4 @@ if __name__ == '__main__':
         "num_processed": len(file_names)
     }
     print(metrics)
+    exit(0)

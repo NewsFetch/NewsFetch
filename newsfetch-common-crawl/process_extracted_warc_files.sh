@@ -1,1 +1,1 @@
-LOGLEVEL=INFO python newsfetch_common_crawl/warc_extracted_files_processor.py --warc-file-path $1
+PYTHONPATH=. python newsfetch_common_crawl/warc_extracted_files_processor.py --warc-file-path $1

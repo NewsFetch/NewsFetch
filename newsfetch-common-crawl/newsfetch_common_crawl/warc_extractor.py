@@ -113,3 +113,4 @@ if __name__ == '__main__':
         "num_processed": num_processed
     }
     logging.info(metrics)
+    exit(0)
