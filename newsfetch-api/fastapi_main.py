@@ -13,8 +13,11 @@ import config
 
 db_models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
-
+app = FastAPI(
+    title="NewsFetch API",
+    description="News: Processed, Structured, and Ready to Use",
+    version="v1.0"
+)
 
 # Dependency
 def get_db():

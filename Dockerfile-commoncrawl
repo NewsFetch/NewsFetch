@@ -6,6 +6,6 @@ COPY ./newsfetch-core /newsfetch-core
 COPY ./newsfetch-common-crawl/. /newsfetch-common-crawl
 RUN rm -rf /newsfetch-core/venv /newsfetch-common-crawl/venv
 
-RUN pip install poetry==1.1.12 &&  \
-    poetry export --without-hashes -o requirements.txt &&  \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install poetry==1.1.12
+RUN poetry export --without-hashes -o requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
