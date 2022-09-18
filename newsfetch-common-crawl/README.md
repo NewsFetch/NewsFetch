@@ -35,12 +35,12 @@ PROCESSED_CONTENT_DIR = "processed-content"
 Run this from the root directory of the project.
 
 ```bash
-docker build -t newsfetch-common-crawl -f ./Dockerfile-commoncrawl .
+docker build -t newsfetch/newsfetch-common-crawl -f ./Dockerfile-commoncrawl .
 ```
 
 If you are on M1 Mac, or any other platform, you can use the following command to build the image for the platform you are on.
 
-`docker build -t newsfetch-common-crawl -f ./Dockerfile-commoncrawl . --platform linux/amd64`
+`docker build -t newsfetch/newsfetch-common-crawl -f ./Dockerfile-commoncrawl . --platform linux/amd64`
 
 ### Pull from DockerHub
 

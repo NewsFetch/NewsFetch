@@ -1,0 +1,15 @@
+FROM python:3.9
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /newsfetch-api
+
+COPY ./newsfetch-core /newsfetch-core
+COPY ./newsfetch-common-crawl /newsfetch-common-crawl
+COPY ./newsfetch-api/. /newsfetch-api
+RUN rm -rf /newsfetch-core/venv /newsfetch-common-crawl/venv /newsfetch-api/venv
+
+RUN pip install poetry==1.1.12
+RUN poetry export --without-hashes -o requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+RUN cp .env.sample .env
+
+CMD ["uvicorn", "fastapi_main:app", "--host", "0.0.0.0", "--port", "8000"]
