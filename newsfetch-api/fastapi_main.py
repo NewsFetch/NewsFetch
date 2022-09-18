@@ -3,7 +3,7 @@ from datetime import datetime
 import uvicorn
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from newsfetch_core.newplease_adapter import NewsPleaseHtmlAdapter
+from newsfetch_core.newplease_adapter import NewsPleaseHtmlAdapter, NewsPleaseUrlAdapter
 from sqlalchemy.orm import Session
 
 from newsfetch_core import api_schemas
@@ -89,7 +89,13 @@ async def articles_search(start_date: datetime = None,
 
 @app.post("/article/parse", response_model=api_schemas.Article)
 async def parse_article(parse_article_input: api_schemas.ParseArticleInput) -> api_schemas.Article:
-    newsplease_adapter = NewsPleaseHtmlAdapter(html=parse_article_input.html, url=parse_article_input.url)
+    if not config.PARSE_ENABLED:
+        raise HTTPException(status_code=400, detail="parsing is disabled")
+
+    if parse_article_input.html:
+        newsplease_adapter = NewsPleaseHtmlAdapter(html=parse_article_input.html, url=parse_article_input.url)
+    else:
+        newsplease_adapter = NewsPleaseUrlAdapter(url=parse_article_input.url)
     return newsplease_adapter.get_article()
 
 if __name__ == "__main__":

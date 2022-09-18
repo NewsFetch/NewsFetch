@@ -216,3 +216,11 @@ class TestApi():
         assert response.json()["content_length"] == 14355
         assert response.json()["language"] == "en"
         assert response.json()["domain"] == "www.npr.org"
+
+    @pytest.mark.skip()
+    def test_parse_article_url(self):
+        article_url = "https://abc7.com/death-valley-hottest-september-day-2022-heat-wave-southern-california/12191728/"
+        response = client.post("/article/parse", json={"html": "", "url": article_url})
+        assert response.status_code == 200
+        assert response.json()["url"] == article_url
+        assert response.json()["title"] == "Tourists flock to Death Valley National Park to feel record 127-degree temps"
