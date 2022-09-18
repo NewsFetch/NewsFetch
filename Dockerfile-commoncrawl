@@ -4,13 +4,8 @@ WORKDIR /newsfetch-common-crawl
 
 COPY ./newsfetch-core /newsfetch-core
 COPY ./newsfetch-common-crawl/. /newsfetch-common-crawl
+RUN rm -rf /newsfetch-core/venv /newsfetch-common-crawl/venv
 
-RUN pip install poetry==1.1.12
-RUN poetry export --without-hashes -o requirements.txt
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-#RUN ./get_latest_warc.sh
-#RUN LATEST=`ls -lrt1 ./commoncrawl-data/*.gz | tail -n 1`
-#RUN ./extract_warc.sh $LATEST
-#RUN ./process_extracted_warc_files.sh $LATEST
+RUN pip install poetry==1.1.12 &&  \
+    poetry export --without-hashes -o requirements.txt &&  \
+    pip install --no-cache-dir -r requirements.txt
