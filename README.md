@@ -7,6 +7,7 @@ This repository contains the following subprojects:
 * [newsfetch-core](./newsfetch-core): The core library for the NewsFetch project
 * [newsfetch-common-crawl](./newsfetch-common-crawl): Various utilities that NewsFetch project uses in interfacing with CommonCrawl
 * [newsfetch-api](./newsfetch-api): An example API for the NewsFetch project
+* [sample-data](./sample-data): Sample data
 
 ## Projects that NewsFetch depends on
 
