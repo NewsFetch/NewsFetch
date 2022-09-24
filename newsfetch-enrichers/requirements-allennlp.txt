@@ -1,0 +1,6 @@
+#spacy
+spacy~=3.3
+
+#allennlp
+allennlp~=2.10.0
+allennlp-models~=2.10.0

@@ -6,7 +6,7 @@ import pathlib
 import pytest
 
 from newsfetch_core.api_schemas import Article
-from newsfetch_core.newplease_adapter import NewsPleaseHtmlAdapter
+from newsfetch_newsplease.newplease_adapter import NewsPleaseHtmlAdapter
 
 @pytest.fixture(autouse=True)
 def get_parent_folder(request):
@@ -15,7 +15,8 @@ def get_parent_folder(request):
 
 class TestNewsPleaseHtmlAdapter():
     def test_get_article(self, get_parent_folder):
-        warc_extract = json.loads(open(os.path.join(get_parent_folder, "warc_extract.json")).read())
+        warc_extract = json.loads(open(os.path.join(get_parent_folder,
+                                                    "warc_extract.json")).read())
         html = warc_extract['article_html']
         newsplease_html_adapter = NewsPleaseHtmlAdapter(html, url="https://npr.org/article")
         article: Article = newsplease_html_adapter.get_article()

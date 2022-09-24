@@ -1,0 +1,27 @@
+python_dotenv~=0.20.0
+# relative path based dependencies
+file:../newsfetch-core
+
+#for huggingface models
+torch~=1.10.1
+transformers~=4.21.1
+
+#spacy
+spacy~=3.4
+https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.4.0/en_core_web_md-3.4.0.tar.gz#egg=en_core_web_md
+https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.4.0/en_core_web_trf-3.4.0.tar.gz#egg=en_core_web_trf
+
+#flair
+flair~=0.11
+
+#berttopic
+bertopic>=0.12.0
+hdbscan>=0.8.28
+joblib==1.1
+
+#keybert
+keybert~=0.5.0
+
+gtts~=2.2.3
+
+accelerate==0.12.0

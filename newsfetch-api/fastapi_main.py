@@ -3,7 +3,7 @@ from datetime import datetime
 import uvicorn
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from newsfetch_core.newplease_adapter import NewsPleaseHtmlAdapter, NewsPleaseUrlAdapter
+from newsfetch_newsplease.newplease_adapter import NewsPleaseHtmlAdapter, NewsPleaseUrlAdapter
 from sqlalchemy.orm import Session
 
 from newsfetch_core import api_schemas

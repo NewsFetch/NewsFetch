@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "newsfetch-api"
 version = "0.1.0"
-description = "Newsfetch API "
+description = "NewsFetch API "
 authors = ["Manoj Bharadwaj <manoj@cloudcosmos.tech>"]
 
 [tool.poetry.dependencies]
@@ -12,6 +12,10 @@ uvicorn = "^0.18.2"
 sqlalchemy = "^1.4.40"
 # relative path based dependencies
 newsfetch-core = {path = "../newsfetch-core"}
+
+## NewsPlease requirements
+newsfetch-newsplease = {path = "../newsfetch-newsplease"}
+
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

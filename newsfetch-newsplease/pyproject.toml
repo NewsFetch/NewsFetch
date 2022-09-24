@@ -1,17 +1,18 @@
 [tool.poetry]
-name = "newsfetch-common-crawl"
+name = "newsfetch-newsplease"
 version = "0.1.0"
-description = "NewsFetch CommonCrawl library"
+description = "NewsFetch NewsPlease adapter"
 authors = ["Manoj Bharadwaj <manoj@cloudcosmos.tech>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 python_dotenv = "^0.20.0"
-warcio="^1.7.4"
+news-please = "^1.5.22"
+awscli = "^1.20.57"
+requests = "^2.28.1"
 
 # relative path based dependencies
 newsfetch-core = {path = "../newsfetch-core"}
-newsfetch-newsplease = {path = "../newsfetch-newsplease"}
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
