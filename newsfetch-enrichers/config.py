@@ -1,5 +1,7 @@
 import os
 
+LOGLEVEL = os.environ.get("LOGLEVEL", "INFO")
+
 SPACY_NER_EN_CORE_WEB_SM = "en_core_web_sm"
 SPACY_NER_EN_CORE_WEB_MD = "en_core_web_md"
 SPACY_NER_EN_CORE_WEB_LG = "en_core_web_lg"
@@ -29,23 +31,28 @@ ARTS_AND_ENTERTAINMENT_SUB_CATEGORIES = ['film', 'music', 'TV', 'theatre', 'book
 NEWS_REGIONS = ['USA', 'North America', 'Middle East', 'Americas', 'Europe', 'Asia', 'Australia', 'Africa', 'India',
                 'Germany', 'France', 'Netherlands', 'Dubai']
 
-HUGGINGFACE_NER_DSLIM_BERT_BASE_NER = "dslim/bert-base-NER"
-HUGGINGFACE_NER_XML_ROBERTA_LARGE_FINETUNED_CONLL03_ENGLISH = "xlm-roberta-large-finetuned-conll03-english"
-HUGGINGFACE_CLASSIFICATION_VALHALLA_DISTILBART_MNLI_12_1 = "valhalla/distilbart-mnli-12-1"
-HUGGINGFACE_CLASSIFICATION_CROSS_ENCODER_NLI_DISTILROBERTA_BASE = "cross-encoder/nli-distilroberta-base"
-
-HUGGINGFACE_NER_ELASTIC_DISTILBERT_BASE_UNCASED_FINETUNED_CONLL03_ENG_NER = "elastic/distilbert-base-uncased-finetuned-conll03-english"
-HUGGINGFACE_NER_ELASTIC_DISTILBERT_BASE_CASED_FINETUNED_CONLL03_ENG_NER = "elastic/distilbert-base-cased-finetuned-conll03-english"
-HUGGINGFACE_NER_DAVLAN_DISTILBERT_BASE_MULTILINGUAL_CASED_NER = "Davlan/distilbert-base-multilingual-cased-ner-hrl"
-HUGGINGFACE_NER_DAVLAN_DISTILBERT_BASE_MULTILINGUAL_CASED_NER_LANGUAGES = ["ar", "de", "en", "es", "fr", "it", "lv", "nl", "pt", "zh"]
-
-HUGGINGFACE_SUMMARIZATION_SSHLEIFER_DISTILBART_CNN_6_6 = "sshleifer/distilbart-cnn-6-6"
-HUGGINGFACE_SUMMARIZATION_GOOGLE_PEGASUS_XSUM = "google/pegasus-xsum"
+TRANSFORMERS_NER_PIPELINE_NAME = "ner"
+TRANSFORMERS_ZERO_SHOT_CLASSIFICATION_PIPELINE_NAME = "zero-shot-classification"
+TRANSFORMERS_SUMMARIZATION_PIPELINE_NAME = "summarization"
+TRANSFORMERS_QNA_PIPELINE_NAME = "question-answering"
 
 
-HUGGINGFACE_NER_PIPELINE_NAME = "ner"
-HUGGINGFACE_ZERO_SHOT_CLASSIFICATION_PIPELINE_NAME = "zero-shot-classification"
-HUGGINGFACE_SUMMARIZATION_PIPELINE_NAME = "summarization"
+TRANSFORMERS_NER_DSLIM_BERT_BASE_NER = "dslim/bert-base-NER"
+TRANSFORMERS_NER_XML_ROBERTA_LARGE_FINETUNED_CONLL03_ENGLISH = "xlm-roberta-large-finetuned-conll03-english"
+TRANSFORMERS_NER_ELASTIC_DISTILBERT_BASE_UNCASED_FINETUNED_CONLL03_ENG_NER = "elastic/distilbert-base-uncased-finetuned-conll03-english"
+TRANSFORMERS_NER_ELASTIC_DISTILBERT_BASE_CASED_FINETUNED_CONLL03_ENG_NER = "elastic/distilbert-base-cased-finetuned-conll03-english"
+TRANSFORMERS_NER_DAVLAN_DISTILBERT_BASE_MULTILINGUAL_CASED_NER = "Davlan/distilbert-base-multilingual-cased-ner-hrl"
+TRANSFORMERS_NER_DAVLAN_DISTILBERT_BASE_MULTILINGUAL_CASED_NER_LANGUAGES = ["ar", "de", "en", "es", "fr", "it", "lv", "nl", "pt", "zh"]
+
+TRANSFORMERS_CLASSIFICATION_VALHALLA_DISTILBART_MNLI_12_1 = "valhalla/distilbart-mnli-12-1"
+TRANSFORMERS_CLASSIFICATION_CROSS_ENCODER_NLI_DISTILROBERTA_BASE = "cross-encoder/nli-distilroberta-base"
+
+TRANSFORMERS_SUMMARIZATION_SSHLEIFER_DISTILBART_CNN_6_6 = "sshleifer/distilbart-cnn-6-6"
+TRANSFORMERS_SUMMARIZATION_GOOGLE_PEGASUS_XSUM = "google/pegasus-xsum"
+
+TRANSFORMERS_DOC2QUERY_T5_BASE_MSMACRO = "castorini/doc2query-t5-base-msmarco"
+
+TRANSFORMERS_QNA_DEEPSET_TINYROBERTA_SQUAD2 = "deepset/tinyroberta-squad2"
 
 FLAIR_NER_ENGLISH_ONTONOTES_LARGE = "flair/ner-english-ontonotes-large"
 
@@ -76,7 +83,7 @@ SPACY_FLAIR_ENTITY_LABEL_MAPPINGS = {
     'WORK_OF_ART': 'WORK_OF_ART'
 }
 
-HUGGINGFACE_ALLENAI_ENTITY_LABEL_MAPPINGS = {
+TRANSFORMERS_ALLENAI_ENTITY_LABEL_MAPPINGS = {
     'B-LOC': 'LOC',
     'I-LOC': 'LOC',
     'L-LOC': 'LOC',

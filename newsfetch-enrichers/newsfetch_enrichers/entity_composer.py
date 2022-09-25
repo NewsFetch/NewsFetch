@@ -8,7 +8,7 @@ def create_new_entity(named_entity):
                   end_offset=named_entity.end_offset,
                   confidence=named_entity.confidence)
 
-class EntityComposer_HuggingFace_BI_Strategy():
+class EntityComposer_Transformers_BI_Strategy():
     def compose(self, named_entities):
         current_entity = None
         composed_entities = []

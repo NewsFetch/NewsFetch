@@ -1,4 +1,5 @@
 import datetime
+import logging
 import uuid
 from typing import Dict, List
 
@@ -248,4 +249,4 @@ if __name__ == '__main__':
     }
 
     aggregates = multi_model_aggregator.aggregate([enrichment1, enrichment2, enrichment3])
-    print(aggregates)
+    logging.info(aggregates)

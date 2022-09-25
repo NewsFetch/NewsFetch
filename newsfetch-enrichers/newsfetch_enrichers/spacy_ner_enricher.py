@@ -35,12 +35,12 @@ if __name__ == "__main__":
 
     spacy_ner_enricher = SpacyNerEnricher(config.SPACY_NER_EN_CORE_WEB_MD)
     enriched = spacy_ner_enricher.enrich(content)
-    print(enriched.entities)
-    print(enriched.entities_composed)
-    print(enriched.entity_aggregates)
+    logging.info(enriched.entities)
+    logging.info(enriched.entities_composed)
+    logging.info(enriched.entity_aggregates)
     spacy_ner_enricher = SpacyNerEnricher(config.SPACY_NER_EN_CORE_WEB_TRF)
     enriched = spacy_ner_enricher.enrich(content)
-    print(enriched.entities)
-    print(enriched.entities_composed)
-    print(enriched.entity_aggregates)
+    logging.info(enriched.entities)
+    logging.info(enriched.entities_composed)
+    logging.info(enriched.entity_aggregates)
 

@@ -84,3 +84,19 @@ class Topic(BaseModel):
 
 class Topics(BaseModel):
     topics: List[Topic]
+
+class QuestionAndContext(BaseModel):
+    question: str
+    context: str
+class Answer(BaseModel):
+    answer: str
+    score: float
+    start: int
+    end: int
+class QuestionAnswer(QuestionAndContext):
+    answer: Answer
+class QuestionAnswers(BaseModel):
+    question_answers: List[QuestionAnswer]
+
+class GeneratedQuestions(BaseModel):
+    questions_and_contexts: List[QuestionAndContext]

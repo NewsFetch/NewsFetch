@@ -1,11 +1,15 @@
+import logging
+
 from flair.data import Sentence
 from flair.models import SequenceTagger
 
 import config
 from common.datatypes import Entity, NER
 from named_entities_aggregator import SingleModelNamedEntitiesAggregator
+from newsfetch_enrichers.enricher import Enricher
 
-class FlairEnricher():
+
+class FlairEnricher(Enricher):
     def __init__(self, model_name: str):
         self.model_name = model_name
 
@@ -37,6 +41,6 @@ if __name__ == '__main__':
 
     ner_enricher = FlairNerEnricher(config.FLAIR_NER_ENGLISH_ONTONOTES_LARGE)
     enriched = ner_enricher.enrich(content)
-    print(enriched.entities)
-    print(enriched.entities_composed)
-    print(enriched.entity_aggregates)
+    logging.info(enriched.entities)
+    logging.info(enriched.entities_composed)
+    logging.info(enriched.entity_aggregates)

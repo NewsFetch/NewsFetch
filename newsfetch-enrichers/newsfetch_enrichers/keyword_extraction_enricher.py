@@ -1,3 +1,5 @@
+import logging
+
 from keybert import KeyBERT
 
 import config
@@ -31,5 +33,5 @@ if __name__ == '__main__':
     sents = [sent.strip() for sent in content.split("\n") if sent]
     keybert_keyword_extractor_enricher = KeyBertKeywordExtractionEnricher(model_name=config.KEYBERT_ALL_MINI_LM_L6_V2)
     results = keybert_keyword_extractor_enricher.enrich(content)
-    print(results)
+    logging.info(results)
 

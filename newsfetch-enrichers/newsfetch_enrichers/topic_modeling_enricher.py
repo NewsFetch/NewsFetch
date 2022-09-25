@@ -69,6 +69,6 @@ if __name__ == "__main__":
     topic_model_enricher = TopicModelingEnricher(model_name=saved_model_name)
 
     for doc in docs:
-        print(topic_model_enricher.enrich(doc))
+        logging.info(topic_model_enricher.enrich(doc))
 
-    print(topic_model_enricher.enrich_many(docs))
+    logging.info(topic_model_enricher.enrich_many(docs))

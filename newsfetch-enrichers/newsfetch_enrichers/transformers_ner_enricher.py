@@ -6,25 +6,24 @@ from transformers import pipeline
 
 import config
 from common.datatypes import Entity, NER
-from entity_composer import EntityComposer_HuggingFace_BI_Strategy
+from entity_composer import EntityComposer_Transformers_BI_Strategy
 from named_entities_aggregator import SingleModelNamedEntitiesAggregator
-from newsfetch_enrichers.huggingface_enricher import HuggingFaceEnricher
+from newsfetch_enrichers.transformers_enricher import TransformersEnricher
 
-
-class HuggingFaceNerEnricher(HuggingFaceEnricher):
+class TransformersNerEnricher(TransformersEnricher):
     def __init__(self, model_name: str, label_map: dict = None):
         super().__init__(model_name)
         if label_map is None:
-            label_map = config.HUGGINGFACE_ALLENAI_ENTITY_LABEL_MAPPINGS
+            label_map = config.TRANSFORMERS_ALLENAI_ENTITY_LABEL_MAPPINGS
         self.label_map = label_map
         tokenizer = AutoTokenizer.from_pretrained(self.model_name, local_files_only=False)
         model = AutoModelForTokenClassification.from_pretrained(self.model_name, local_files_only=False)
-        self.ner_pipeline = pipeline(config.HUGGINGFACE_NER_PIPELINE_NAME, model=model, tokenizer=tokenizer)
+        self.ner_pipeline = pipeline(config.TRANSFORMERS_NER_PIPELINE_NAME, model=model, tokenizer=tokenizer)
 
     def enrich(self, text: str) -> NER:
         results = self.ner_pipeline(text)
 
-        composer_strategy = EntityComposer_HuggingFace_BI_Strategy()
+        composer_strategy = EntityComposer_Transformers_BI_Strategy()
         entities_aggregator = SingleModelNamedEntitiesAggregator(composer_strategy=composer_strategy)
         for result in results:
             model_label = result["entity"]
@@ -44,9 +43,9 @@ class HuggingFaceNerEnricher(HuggingFaceEnricher):
 
 
 def print_output(results):
-    print(results.entities)
-    print(results.entities_composed)
-    print(results.entity_aggregates)
+    logging.info(results.entities)
+    logging.info(results.entities_composed)
+    logging.info(results.entity_aggregates)
 
 
 if __name__ == '__main__':
@@ -54,16 +53,16 @@ if __name__ == '__main__':
     #content = "در سال ۲۰۱۳ درگذشت و آندرتیکر و کین برای او مراسم یادبود گرفتند."
     #content = "Baltimore City Health Commissioner Dr. Letitia Dzirasa has issued a Code Blue Extreme Cold declaration . The declaration will be in place from Friday evening through Sunday evening . So far, Baltimore has seen three cold-related deaths this season, state Office of the Chief Medical Examiner says ."
 
-    ner_enricher = HuggingFaceNerEnricher("philschmid/distilroberta-base-ner-wikiann-conll2003-3-class")
+    ner_enricher = TransformersNerEnricher("philschmid/distilroberta-base-ner-wikiann-conll2003-3-class")
     results = ner_enricher.enrich(content)
-    print(results)
+    logging.info(results)
 
-    ner_enricher = HuggingFaceNerEnricher(config.HUGGINGFACE_NER_ELASTIC_DISTILBERT_BASE_CASED_FINETUNED_CONLL03_ENG_NER,
-                                          config.HUGGINGFACE_ALLENAI_ENTITY_LABEL_MAPPINGS)
+    ner_enricher = TransformersNerEnricher(config.TRANSFORMERS_NER_ELASTIC_DISTILBERT_BASE_CASED_FINETUNED_CONLL03_ENG_NER,
+                                           config.TRANSFORMERS_ALLENAI_ENTITY_LABEL_MAPPINGS)
     results = ner_enricher.enrich(content)
     print_output(results)
 
-    ner_enricher = HuggingFaceNerEnricher(config.HUGGINGFACE_NER_DAVLAN_DISTILBERT_BASE_MULTILINGUAL_CASED_NER,
-                                          config.HUGGINGFACE_ALLENAI_ENTITY_LABEL_MAPPINGS)
+    ner_enricher = TransformersNerEnricher(config.TRANSFORMERS_NER_DAVLAN_DISTILBERT_BASE_MULTILINGUAL_CASED_NER,
+                                           config.TRANSFORMERS_ALLENAI_ENTITY_LABEL_MAPPINGS)
     results = ner_enricher.enrich(content)
     print_output(results)

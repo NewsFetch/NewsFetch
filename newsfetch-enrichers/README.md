@@ -21,19 +21,24 @@ PROCESSED_CONTENT_DIR = "processed-content"
 
 * NER - Named Entity Recognition
   * Spacy
-  * HuggingFace Transformers
+  * Transformer NER models
   * Flair
   * AllenNLP
 * Summarization (Abstractive)
-  * HuggingFace Transformers
+  * Transformer summarization models
 * Keyword Extraction
   * KeyBERT
+  * Transformer keyword extraction models
 * Topic Modeling
   * BERTopic
+* Question Answering
+  * Transformer QnA models 
 * Generative Question Answering
   * DocT5 
 
 ## Running an enrichment
+
+Each enrichment that has been implemented has a main() function that can be run from the command line. The main() function that shows the usage.
 
 ### AllenNLP
 
@@ -45,7 +50,7 @@ pip install -r requirements-allennlp.txt
 
 This installed a previous version of Spacy that AllenNLP needs.
 
-After that, run the usual steps.
+After that, run the main() function.
 
 
 ## Docker
@@ -73,33 +78,5 @@ docker pull newsfetch/newsfetch-enrichers
 ### Run
 
 For the next commands, it is assumed that there is a directory named `commoncrawl-data` in the current directory.
-This directoy will be used to store the CommonCrawl data.
+This directoy has the processed CommonCrawl News which is further enriched.
 
-First use the docker image to download the latest CommonCrawl data.
-
-```bash
-docker run -e COMMON_CRAWL_DATA_DIR=/data -v $(pwd)/commoncrawl-data:/data -it --name newsfetch-download-warc newsfetch/newsfetch-common-crawl sh ./get_latest_warc.sh
-```
-
-This will download the latest WARC file to the `commoncrawl-data` directory.
-
-Make a note of the name of the WARC file that was downloaded.
-Let us say the name was `CC-NEWS-20220915230049-00936.warc.gz`.
-
-Now use the image to extract the news articles from the WARC file.
-
-Be sure to map the volumes correctly. 
-
-In the following example, The `commoncrawl-data` directory is mapped to `/data` in the container.
-The WARC file name is provided in reference to this volume name.
-It will be `/data/CC-NEWS-20220915230049-00936.warc.gz`
-
-```bash
-docker run -e COMMON_CRAWL_DATA_DIR=/data -v $(pwd)/commoncrawl-data:/data -it --name newsfetch-extract-warc newsfetch/newsfetch-common-crawl sh ./extract_warc.sh /data/CC-NEWS-20220915230049-00936.warc.gz
-```
-
-Finally, process the extracted news articles.
-
-```bash
-docker run -e COMMON_CRAWL_DATA_DIR=/data -v $(pwd)/commoncrawl-data:/data -it --name newsfetch-process-warc newsfetch/newsfetch-common-crawl sh ./process_extracted_warc_files.sh /data/CC-NEWS-20220915230049-00936.warc.gz
-```

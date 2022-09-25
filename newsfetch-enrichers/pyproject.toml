@@ -11,7 +11,7 @@ python_dotenv = "^0.20.0"
 #pydantic = "^1.10.2"
 newsfetch-core = {path = "../newsfetch-core"}
 
-#huggingface
+#huggingface transformers
 torch="^1.10.1"
 transformers="^4.21.1"
 
