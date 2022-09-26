@@ -2,6 +2,7 @@ import os
 
 LOGLEVEL = os.environ.get("LOGLEVEL", "INFO")
 
+SPACY = "spacy"
 SPACY_NER_EN_CORE_WEB_SM = "en_core_web_sm"
 SPACY_NER_EN_CORE_WEB_MD = "en_core_web_md"
 SPACY_NER_EN_CORE_WEB_LG = "en_core_web_lg"
@@ -31,6 +32,7 @@ ARTS_AND_ENTERTAINMENT_SUB_CATEGORIES = ['film', 'music', 'TV', 'theatre', 'book
 NEWS_REGIONS = ['USA', 'North America', 'Middle East', 'Americas', 'Europe', 'Asia', 'Australia', 'Africa', 'India',
                 'Germany', 'France', 'Netherlands', 'Dubai']
 
+TRANSFORMERS = "transformers"
 TRANSFORMERS_NER_PIPELINE_NAME = "ner"
 TRANSFORMERS_ZERO_SHOT_CLASSIFICATION_PIPELINE_NAME = "zero-shot-classification"
 TRANSFORMERS_SUMMARIZATION_PIPELINE_NAME = "summarization"
@@ -106,3 +108,6 @@ TRANSFORMERS_ALLENAI_ENTITY_LABEL_MAPPINGS = {
     'MISC': 'MISC',
     'O': ''
 }
+
+EXCLUDED_KEYS = []
+JSON_OUT_FILE_EXT = ".json"

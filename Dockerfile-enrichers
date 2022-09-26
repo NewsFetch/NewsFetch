@@ -1,0 +1,8 @@
+FROM python:3.9
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /newsfetch-enrichers
+
+COPY ./newsfetch-core /newsfetch-core
+RUN rm -rf /newsfetch-core/venv
+
+RUN pip install --no-cache-dir -r requirements.txt

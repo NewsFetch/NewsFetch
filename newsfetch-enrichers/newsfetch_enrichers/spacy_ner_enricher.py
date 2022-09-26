@@ -2,7 +2,7 @@ import logging
 
 import config
 from common.datatypes import Entity, NER
-from named_entities_aggregator import SingleModelNamedEntitiesAggregator
+from newsfetch_enrichers.named_entities_aggregator import SingleModelNamedEntitiesAggregator
 from newsfetch_enrichers.spacy_enricher import SpacyEnricher
 
 

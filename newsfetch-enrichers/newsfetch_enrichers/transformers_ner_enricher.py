@@ -6,8 +6,8 @@ from transformers import pipeline
 
 import config
 from common.datatypes import Entity, NER
-from entity_composer import EntityComposer_Transformers_BI_Strategy
-from named_entities_aggregator import SingleModelNamedEntitiesAggregator
+from newsfetch_enrichers.entity_composer import EntityComposer_Transformers_BI_Strategy
+from newsfetch_enrichers.named_entities_aggregator import SingleModelNamedEntitiesAggregator
 from newsfetch_enrichers.transformers_enricher import TransformersEnricher
 
 class TransformersNerEnricher(TransformersEnricher):
