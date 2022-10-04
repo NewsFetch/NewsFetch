@@ -52,6 +52,81 @@ This installed a previous version of Spacy that AllenNLP needs.
 
 After that, run the main() function.
 
+### Run
+
+For the next commands, the data in `sample-data` sub folder under the project root is used.
+This directoy has the processed CommonCrawl News, and this will be further enriched.
+
+`PYTHONPATH=. python run_enrichers.py --newsfetch-processed-base-dir=../sample-data/CC-NEWS-20220918140302-00985/`
+
+This will run all the enrichers, and save the output in the `enrichments` sub folder under the directory specified in the
+`newsfetch-processed-base-dir` argument.
+
+The output strcutrue will look like:
+
+    |-- sample-data
+        |-- CC-NEWS-20220915230049-00936
+        |-- CC-NEWS-20220918140302-00985
+            |-- enrichments
+            |   |-- ner
+            |   |   |-- spacy
+            |   |   |   |-- en_core_web_md
+            |   |   |   |   |-- abc7.com
+            |   |   |   |   |   |-- 3ffa69ee-66f1-4cb9-b13e-31ceb912b5af.json
+            |   |   |   |   |-- chicago.suntimes.com
+            |   |   |   |   |   |-- 0eae59b8-6ea4-4db9-9236-ee535f6d3619.json
+            |   |   |   |   |-- www.npr.org
+            |   |   |   |       |-- 22bce741-521d-4568-a08c-9596ed713c4b.json
+            |   |   |   |-- en_core_web_trf
+            |   |   |       |-- abc7.com
+            |   |   |       |   |-- 3ffa69ee-66f1-4cb9-b13e-31ceb912b5af.json
+            |   |   |       |-- chicago.suntimes.com
+            |   |   |       |   |-- 0eae59b8-6ea4-4db9-9236-ee535f6d3619.json
+            |   |   |       |-- www.npr.org
+            |   |   |           |-- 22bce741-521d-4568-a08c-9596ed713c4b.json
+            |   |   |-- transformers
+            |   |       |-- elastic
+            |   |           |-- distilbert-base-cased-finetuned-conll03-english
+            |   |               |-- abc7.com
+            |   |               |   |-- 3ffa69ee-66f1-4cb9-b13e-31ceb912b5af.json
+            |   |               |-- chicago.suntimes.com
+            |   |               |   |-- 0eae59b8-6ea4-4db9-9236-ee535f6d3619.json
+            |   |               |-- www.npr.org
+            |   |                   |-- 22bce741-521d-4568-a08c-9596ed713c4b.json
+            |   |-- summarization
+            |   |   |-- transformers
+            |   |       |-- sshleifer
+            |   |           |-- distilbart-cnn-6-6
+            |   |               |-- chicago.suntimes.com
+            |   |               |   |-- 0eae59b8-6ea4-4db9-9236-ee535f6d3619.json
+            |   |               |-- www.npr.org
+            |   |                   |-- 22bce741-521d-4568-a08c-9596ed713c4b.json
+            |   |-- zeroshot-classification
+            |       |-- transformers
+            |           |-- valhalla
+            |               |-- distilbart-mnli-12-1
+            |                   |-- abc7.com
+            |                   |   |-- 3ffa69ee-66f1-4cb9-b13e-31ceb912b5af.json
+            |                   |-- chicago.suntimes.com
+            |                   |   |-- 0eae59b8-6ea4-4db9-9236-ee535f6d3619.json
+            |                   |-- www.npr.org
+            |                       |-- 22bce741-521d-4568-a08c-9596ed713c4b.json
+            |-- processed-content
+            |   |-- abc7.com
+            |   |   |-- 3ffa69ee-66f1-4cb9-b13e-31ceb912b5af.json
+            |   |-- chicago.suntimes.com
+            |   |   |-- 0eae59b8-6ea4-4db9-9236-ee535f6d3619.json
+            |   |-- www.npr.org
+            |       |-- 22bce741-521d-4568-a08c-9596ed713c4b.json
+            |-- warc-extract
+                |-- abc7.com
+                |   |-- 3ffa69ee-66f1-4cb9-b13e-31ceb912b5af.json
+                |-- chicago.suntimes.com
+                |   |-- 0eae59b8-6ea4-4db9-9236-ee535f6d3619.json
+                |-- www.npr.org
+                    |-- 22bce741-521d-4568-a08c-9596ed713c4b.json
+
+
 
 ## Docker
 
@@ -74,9 +149,4 @@ The image is also available on DockerHub.
 ```bash
 docker pull newsfetch/newsfetch-enrichers
 ```
-
-### Run
-
-For the next commands, it is assumed that there is a directory named `commoncrawl-data` in the current directory.
-This directoy has the processed CommonCrawl News which is further enriched.
 

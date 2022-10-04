@@ -96,7 +96,7 @@ def enrich_content(enricher, input_dir):
             domain = processed_content["domain"]
             id = processed_content["meta_info"]["dataset_id"]
             file_name = id + config.JSON_OUT_FILE_EXT
-            util.write_json_to_file([input_dir, enrichment_input.model_source, enrichment_input.model_name, domain],
+            util.write_json_to_file([input_dir, "enrichments", enrichment_input.category, enrichment_input.model_source, enrichment_input.model_name, domain],
                                     file_name, enrichment_response)
 
 
@@ -128,11 +128,11 @@ def enrich_data(processed_root_dir, enrichment_inputs_metadata):
 if __name__ == "__main__":
     start_time = time.time()
     parser = argparse.ArgumentParser()
-    parser.add_argument('--newsfetch-processed-base', type=str, required=True, help='full path to NewsFetch processed content root')
+    parser.add_argument('--newsfetch-processed-base-dir', type=str, required=True, help='full path to NewsFetch processed content root')
     args = parser.parse_args()
 
-    if not args.newsfetch_processed_base:
-        logging.error("newsfetch-processed-base is required!")
+    if not args.newsfetch_processed_base_dir:
+        logging.error("newsfetch-processed-base-dir is required!")
         print(parser.print_help())
         exit(1)
 
@@ -178,4 +178,4 @@ if __name__ == "__main__":
     enrichment_inputs_metadata = create_enrichers(all_metadatas)
 
     #processed_root_dir = "../sample-data/CC-NEWS-20220918140302-00985/"
-    enrich_data(processed_root_dir=args.newsfetch_processed_base, enrichment_inputs_metadata=enrichment_inputs_metadata)
+    enrich_data(processed_root_dir=args.newsfetch_processed_base_dir, enrichment_inputs_metadata=enrichment_inputs_metadata)

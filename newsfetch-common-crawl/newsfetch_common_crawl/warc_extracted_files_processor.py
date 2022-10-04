@@ -46,6 +46,7 @@ class ContentProcessorWrapper():
     def __init__(self, file_name, root_dir):
         self.file_name = file_name
         self.root_dir = root_dir
+
     def process_warc_content(self):
         try:
             with(open(self.file_name, "r+")) as warc_extract_file:
