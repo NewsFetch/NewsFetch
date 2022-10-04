@@ -23,9 +23,9 @@ It is assumed that NodeJS is installed and available in the path.
 A [ReactiveSearch](https://docs.reactivesearch.io/) based search app can be created by running the following commands:
 
 ```bash
-npx create-react-app news-search
+npx create-react-app news-search-ui
 
-cd news-search
+cd news-search-ui
 ```
 
 Install the dependencies:
