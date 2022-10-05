@@ -1,2 +1,3 @@
 python_dotenv~=0.20.0
 opensearch-py
+sentence-transformers

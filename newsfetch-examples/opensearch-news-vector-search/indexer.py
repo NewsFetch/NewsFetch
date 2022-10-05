@@ -3,22 +3,38 @@ import json
 import logging
 import time
 
+from sentence_transformers import SentenceTransformer
+
 import config
 import utils
 from opensearch_client import OpenSearchClient
 
+MODEL = SentenceTransformer('all-MiniLM-L6-v2')
+
 logging.basicConfig(level=logging.INFO)
 
 
-class OpenSearchIndexer():
+class OpenSearchVectorIndexer():
     def __init__(self, index_name: str):
         self.opensearch_client = OpenSearchClient(index_name=index_name)
 
     def create_index(self):
         create_index_body = {
-            'settings': {
-                'index': {
-                    'number_of_shards': 4
+            "settings": {
+                "index.knn": True
+            },
+            "mappings": {
+                "properties": {
+                    "content_vector": {
+                        "type": "knn_vector",
+                        "dimension": 384
+                    },
+                    "content": {
+                        "type": "text"
+                    },
+                    "title": {
+                        "type": "text"
+                    }
                 }
             }
         }
@@ -27,9 +43,21 @@ class OpenSearchIndexer():
     def index(self, in_file: str):
         with open(in_file) as f:
             data = json.load(f)
-            result = self.opensearch_client.index(body=data,
-                                         id=data["id"],
-                                         refresh=True)
+            try:
+                content = data["content"]
+                embeddings = MODEL.encode([content])
+                document = {
+                    'content': content,
+                    'content_vector': embeddings[0],
+                }
+                id = data['id']
+                result = self.opensearch_client.index(body=document,
+                                                      id=id,
+                                                      refresh=True)
+            except Exception as ex:
+                logging.error('Error in indexing data')
+                logging.error(str(ex))
+
         return result
 
 
@@ -52,7 +80,7 @@ if __name__ == '__main__':
         pattern="**/*.json"
     )
 
-    opensearch_indexer = OpenSearchIndexer(config.INDEX_NAME)
+    opensearch_indexer = OpenSearchVectorIndexer(config.VECTOR_INDEX_NAME)
     opensearch_indexer.opensearch_client.delete_index()
     opensearch_indexer.create_index()
 

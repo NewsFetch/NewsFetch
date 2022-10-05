@@ -30,6 +30,7 @@ function App() {
                         dataField="authors.keyword"
                         title="Filter by Authors"
                         aggregationSize={5}
+                        showSearch={false}
                     />
                     {/*}
                     <SingleRange
